@@ -28,10 +28,10 @@ RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/ru
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Apple-Direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/OpenAI.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/OpenAI.list,OpenAI
 ```
 
-请把 `PROXY` 替换为小火箭配置中实际存在的代理策略或策略组名称。不同机场配置使用的名称可能是 `PROXY`、`Proxy`、`代理` 或其他名称。
+当前示例假定小火箭和 Surge 都存在名为 `OpenAI` 的代理策略组。
 
 ## 更新规则
 
