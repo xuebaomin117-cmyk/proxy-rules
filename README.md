@@ -8,30 +8,33 @@
 
 - `rules/OpenAI.list`：OpenAI、ChatGPT 和 `chatgpt.site` 相关域名。
 - `rules/Apple-Direct.list`：需要强制直连的 Apple 服务域名。
+- `rules/Proxy.list`：需要通过通用代理访问的个人域名。
 - `clients/Surge.snippet.conf`：Surge 引用示例。
 - `clients/Shadowrocket.snippet.conf`：小火箭引用示例。
 
 ## Surge
 
-将下面两行放在机场规则和 `FINAL` 之前：
+将下面三行放在机场规则和 `FINAL` 之前：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Apple-Direct.list,DIRECT,update-interval=86400,extended-matching
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/OpenAI.list,OpenAI,update-interval=86400,extended-matching
+RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Proxy.list,Proxies,update-interval=86400,extended-matching
 ```
 
-`OpenAI` 必须是当前 Surge 配置中存在的策略组。
+`OpenAI` 和 `Proxies` 必须是当前 Surge 配置中存在的策略组。
 
 ## Shadowrocket
 
-将下面两行放在 `GEOIP` 和 `FINAL` 之前：
+将下面三行放在 `GEOIP` 和 `FINAL` 之前：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Apple-Direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/OpenAI.list,OpenAI
+RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Proxy.list,Proxies
 ```
 
-当前示例假定小火箭和 Surge 都存在名为 `OpenAI` 的代理策略组。
+当前示例假定小火箭和 Surge 都存在名为 `OpenAI` 和 `Proxies` 的代理策略组。
 
 ## 更新规则
 
@@ -42,3 +45,4 @@ RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/ru
 - 不要向仓库提交完整机场配置或订阅 URL。
 - 规则从上到下匹配，个人规则必须位于通用规则和 `FINAL` 之前。
 - `DOMAIN-SUFFIX,chatgpt.site` 同时覆盖根域名和所有子域名。
+- `DOMAIN-SUFFIX,linux.do` 同时覆盖根域名和所有子域名，并映射到通用代理策略组。
