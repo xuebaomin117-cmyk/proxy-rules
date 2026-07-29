@@ -4,8 +4,15 @@
 
 本仓库只保存域名匹配规则，不包含机场订阅地址、代理节点、密码、证书或其他私密配置。
 
+## 客户端接入
+
+需要在新电脑上配置 Surge、Clash Verge Rev 或 Shadowrocket 时，请先阅读：
+
+**[客户端接入与 Codex 操作说明](CLIENT_SETUP.md)**
+
 ## 文件
 
+- `CLIENT_SETUP.md`：提供给其他电脑上 Codex 的完整接入、验证与安全说明。
 - `rules/OpenAI.list`：OpenAI、ChatGPT 和 `chatgpt.site` 相关域名。
 - `rules/Apple-Direct.list`：需要强制直连的 Apple 服务域名。
 - `rules/Proxy.list`：需要通过通用代理访问的个人域名。
