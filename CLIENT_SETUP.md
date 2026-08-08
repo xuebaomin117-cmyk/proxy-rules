@@ -100,16 +100,29 @@ Proxies
 
 ### Surge 规则映射
 
-在本机实际使用的完整配置文件 `[Rule]` 段中加入以下内容：
+在本机实际使用的完整配置文件 `[Rule]` 段中加入以下内容。前三条是 ChatGPT/Codex 进程级兜底，后面三条是共享远程规则映射：
 
 ```ini
 # Personal shared rules
+PROCESS-NAME,/Applications/ChatGPT.app/,OpenAI
+PROCESS-NAME,ChatGPT,OpenAI
+PROCESS-NAME,codex,OpenAI
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Apple-Direct.list,DIRECT,update-interval=86400,extended-matching
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/OpenAI.list,OpenAI,update-interval=86400,extended-matching
 RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/rules/Proxy.list,Proxies,update-interval=86400,extended-matching
 ```
 
 这些规则必须位于机场通用规则和 `FINAL` 之前。
+
+进程规则说明：
+
+- WebSocket/WSS 不需要单独的 Surge 协议规则；连接仍由普通路由规则决定。
+- `PROCESS-NAME,ChatGPT,OpenAI` 强制 ChatGPT 主进程走 `OpenAI`。
+- `PROCESS-NAME,codex,OpenAI` 强制名为 `codex` 的子进程走 `OpenAI`。
+- `/Applications/ChatGPT.app/` 是 App Bundle 路径前缀匹配写法，官方标注为 Surge Mac 6.0+。
+- 在 Surge Mac 6.0 以下版本，主要依靠 `ChatGPT` 和 `codex` 两条文件名规则；保留 App Bundle 条目可兼容未来升级。
+- 这些规则只适用于 Surge Mac，不应加入供 Clash Verge Rev、Shadowrocket 共用的 `rules/OpenAI.list`。
+- 副作用是 ChatGPT 应用和 `codex` 进程的全部网络请求都会走 `OpenAI`，不仅是远程控制 WebSocket。
 
 如当前网络无法直接读取 GitHub Raw，可在个人规则之前加入：
 
@@ -139,13 +152,14 @@ My-Surge.conf：Surge 实际使用的完整本地配置
 2. 备份本机 `My-Surge.conf` 或等效完整配置。
 3. 检查 `OpenAI` 和 `Proxies` 策略组存在。
 4. 将三条远程规则映射加入完整本地配置。
-5. 同步更新本机的配置生成脚本，确保下次生成不会丢失规则。
+5. 同步更新本机的配置生成脚本，确保下次生成不会丢失域名规则和三条进程兜底规则。
 6. 将修改后的配置放入 Surge 本地配置目录。
 7. 在 Surge 中重新载入该配置。
 8. 手动刷新外部规则。
 9. 访问 `chatgpt.site` 和 `linux.do`，通过请求记录确认：
    - `chatgpt.site` 命中 `OpenAI.list → OpenAI`。
    - `linux.do` 命中 `Proxy.list → Proxies`。
+   - ChatGPT/Codex 后台连接命中 `PROCESS-NAME → OpenAI`，没有回落为 `DIRECT`。
 
 ## Windows：Clash Verge Rev 2.5.2
 

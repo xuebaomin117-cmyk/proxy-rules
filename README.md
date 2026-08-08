@@ -31,6 +31,8 @@ RULE-SET,https://raw.githubusercontent.com/xuebaomin117-cmyk/proxy-rules/main/ru
 
 `OpenAI` 和 `Proxies` 必须是当前 Surge 配置中存在的策略组。
 
+Surge Mac 可额外使用进程级兜底，让 ChatGPT 桌面应用及 Codex 子进程强制走 `OpenAI`。具体规则、版本条件和验证方法见 [客户端接入说明](CLIENT_SETUP.md)。进程规则仅适用于 Surge Mac，不放入跨平台的 `rules/OpenAI.list`。
+
 ## Shadowrocket
 
 将下面三行放在 `GEOIP` 和 `FINAL` 之前：
